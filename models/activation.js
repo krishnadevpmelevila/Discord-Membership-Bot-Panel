@@ -9,6 +9,7 @@ var activationSchema = new Schema({
     activated: Boolean,default:false,
     paid: Boolean,default:false,
     activationCode: String,
+    discordid: String,default:null,
     created_at: Date,
     updated_at: Date
 });

@@ -104,6 +104,25 @@ router.get('/deactivate/:_id', auth, async (req, res) => {
 
 
 });
+router.get('/add/:_id/:discordid', auth, async (req, res) => {
+  // update activation
+  const id = req.params._id;
+  const discordid = req.params.discordid;
+  const activation = await Activation.findById(id).catch(err => {
+    console.log("err");
+  });
+  if (activation) {
+    activation.discordid = discordid;
+    activation.save();
+    res.json("Success! ");
+  }else{
+    res.json("User Not Found")
+  }
+
+
+
+
+});
 // Uncomment and register for api creds.
 
 // router.post("/register", async (req, res) => {
