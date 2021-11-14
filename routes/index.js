@@ -104,55 +104,56 @@ router.get('/deactivate/:_id', auth, async (req, res) => {
 
 
 });
-// Register
-router.post("/register", async (req, res) => {
-  try {
-    // Get user input
-    const { first_name, last_name, email, password } = req.body;
+// Uncomment and register for api creds.
 
-    // Validate user input
-    if (!(email && password && first_name && last_name)) {
-      res.status(400).send("All input is required");
-    }
+// router.post("/register", async (req, res) => {
+//   try {
+//     // Get user input
+//     const { first_name, last_name, email, password } = req.body;
 
-    // check if user already exist
-    // Validate if user exist in our database
+//     // Validate user input
+//     if (!(email && password && first_name && last_name)) {
+//       res.status(400).send("All input is required");
+//     }
 
-    const oldUser = await Api.findOne({ email });
+//     // check if user already exist
+//     // Validate if user exist in our database
 
-    if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
-    }
+//     const oldUser = await Api.findOne({ email });
 
-    //Encrypt user password
-    encryptedPassword = await bcrypt.hash(password, 10);
+//     if (oldUser) {
+//       return res.status(409).send("User Already Exist. Please Login");
+//     }
 
-    // Create user in our database
-    const api = await Api.create({
-      first_name,
-      last_name,
-      email: email.toLowerCase(), // sanitize: convert email to lowercase
-      password: encryptedPassword,
-    });
+//     //Encrypt user password
+//     encryptedPassword = await bcrypt.hash(password, 10);
 
-    // Create token
-    const token = jwt.sign(
-      { api_user_id: api._id, email },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
-    // save user token
-    api.token = token;
+//     // Create user in our database
+//     const api = await Api.create({
+//       first_name,
+//       last_name,
+//       email: email.toLowerCase(), // sanitize: convert email to lowercase
+//       password: encryptedPassword,
+//     });
 
-    // return new user
-    res.status(201).json(api);
-  } catch (err) {
-    console.log(err);
-  }
-  // Our register logic ends here
-});
+//     // Create token
+//     const token = jwt.sign(
+//       { api_user_id: api._id, email },
+//       process.env.TOKEN_KEY,
+//       {
+//         expiresIn: "2h",
+//       }
+//     );
+//     // save user token
+//     api.token = token;
+
+//     // return new user
+//     res.status(201).json(api);
+//   } catch (err) {
+//     console.log(err);
+//   }
+//   // Our register logic ends here
+// });
 
 
 // Login
