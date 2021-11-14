@@ -78,7 +78,7 @@ router.get('/activate/:_id', auth, async (req, res) => {
     activation.activated = true;
     activation.save();
     res.json(activation);
-  }else{
+  } else {
     res.json("User Not Found")
   }
 
@@ -95,8 +95,8 @@ router.get('/deactivate/:_id', auth, async (req, res) => {
   if (activation) {
     activation.activated = false;
     activation.save();
-    res.json("Success! User Activation Status: "+activation.activated);
-  }else{
+    res.json("Success! User Activation Status: " + activation.activated);
+  } else {
     res.json("User Not Found")
   }
 
@@ -115,7 +115,7 @@ router.get('/add/:_id/:discordid', auth, async (req, res) => {
     activation.discordid = discordid;
     activation.save();
     res.json("Success! ");
-  }else{
+  } else {
     res.json("User Not Found")
   }
 
@@ -243,10 +243,13 @@ router.post("/admin", async (req, res) => {
       let user_token = req.cookies['x-access-token']; // always empty
 
       if (user_token) {
+
         res.redirect('/dashboard');
       } else {
-        res.cookie('x-access-token', cookietoken, { maxAge: 7200000, httpOnly: true, secure: true });
-        res.append('Set-Cookie', 'x-access-token=' + cookietoken + ';');
+        
+
+
+        res.cookie('x-access-token', cookietoken, {maxAge:60000*60*1.5, httpOnly: true});
         res.redirect('/dashboard');
       }
       // res.location('/dashboard')
@@ -267,7 +270,7 @@ router.get('/dashboard', (req, res) => {
   let user_token = req.cookies['x-access-token'];
 
   if (user_token) {
-    axios.get(process.env.API_URL+'/data', {
+    axios.get(process.env.API_URL + '/data', {
       headers: {
         'x-access-token': user_token
       }
