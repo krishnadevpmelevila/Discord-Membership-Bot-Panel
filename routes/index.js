@@ -248,7 +248,7 @@ router.get('/dashboard', (req, res) => {
   let user_token = req.cookies['x-access-token'];
 
   if (user_token) {
-    axios.get(process.env.API_URL, {
+    axios.get(process.env.API_URL+'/data', {
       headers: {
         'x-access-token': user_token
       }
