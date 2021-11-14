@@ -1,0 +1,261 @@
+{{!-- registration from with tabs --}}
+<div style="margin-top: ;" class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{! title }}</h3>
+                </div>
+                <div class="panel-body">
+                    <h1 style="text-decoration: underline;" class="text-center">Join on Nodeista Discord Community</h1>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h1>Free Registration</h1>
+                            {{#if message}}
+                            <div class="alert alert-danger">{{this.message}}</div>
+                            {{/if}}
+                            {{#if errors}}
+                            {{#each errors}}
+                            <div class="alert alert-danger">{{this.msg}}</div>
+                            {{/each}}
+                            {{/if}}
+                            <form class="row g-3" method="post" action="free-reg">
+                                <div class="col-md-6">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" required class="form-control" name="name" id="inputEmail4">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" required class="form-control" name="email" id="inputPassword4">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Place</label>
+                                    <input type="text" required name="place" class="form-control" id="inputAddress">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputCity" class="form-label">Phone Number</label>
+                                    <input type="tel" required class="form-control" name="phone">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Country</label>
+                                    <input required class="form-control" name="country">
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" required type="checkbox" id="gridCheck">
+                                        <label class="form-check-label" for="gridCheck">
+                                            By clicking on the Register button you agree to our Terms and Conditions</a>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Register Now</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4"
+                            style="border-left:1px solid #000; border-right:1px solid #000; height:500px"><img
+                                style="margin-top: 6rem;"
+                                src="https://nodeista.com/public/images/media/1635251660nodeista-removebg-preview.png"
+                                alt="" srcset="">
+                        </div>
+                        <div id="canvas" class="col-md-4">
+                            <h1>Paid Registration</h1>
+                            {{#if message}}
+                            <div class="alert alert-danger">{{this.message}}</div>
+                            {{/if}}
+                            {{#if errors}}
+                            {{#each errors}}
+                            <div class="alert alert-danger">{{this.msg}}</div>
+                            {{/each}}
+                            {{/if}}
+                            <form id="pay" class="row g-3" method="post" action="paid-reg">
+                                <div class="col-md-6">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" required class="form-control" name="name" id="name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" required class="form-control" name="email" id="mail">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Place</label>
+                                    <input type="text" required name="place" class="form-control" id="palce">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputCity" class="form-label">Phone Number</label>
+                                    <input type="tel" required class="form-control" id="phone" name="phone">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Country</label>
+                                    <input required class="form-control" id="country" name="country">
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" required type="checkbox" id="gridCheck">
+                                        <label class="form-check-label" for="gridCheck">
+                                            By clicking on the Register button you agree to our Terms and Conditions</a>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button id="rzp-button1" type="submit" class="btn btn-primary">Pay and
+                                        Register
+                                        <div hidden id="loading"></div>
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #loading {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        border: 3px solid rgba(255, 255, 255, .3);
+        border-radius: 50%;
+        border-top-color: rgb(0, 0, 0);
+        animation: spin 1s ease-in-out infinite;
+        -webkit-animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @-webkit-keyframes spin {
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+</style>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+
+    $('#pay').submit(function (e) {
+        e.preventDefault();
+        //get data from form
+        var form = $(this);
+        var url = form.attr('action');
+        $(this).find("button[type='submit']").prop('disabled', true);
+        $(this).find("div[id='loading']").prop('hidden', false);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // serializes the form's elements.
+            success: function (data) {
+                console.log(data);
+                var options = {
+                    "key": "rzp_live_XGg7XOJmV4UrtY", // Enter the Key ID generated from the Dashboard
+                    "amount": data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "Nodeista",
+                    "description": "Discord Communtiy Memnbership",
+                    "order_id": data.id, //This is a sample Order ID. Pass the `id` obtained in the previous step
+                    "handler": function (response) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/payment/verify",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            contentType: 'application/json;charset=UTF-8',
+                            data: JSON.stringify({
+                                response,
+                                id: data.id,
+                                formdata: JSON.stringify(getFormData(form.serializeArray())),
+                            }),
+                            success: function (newdata) {
+                                $("#remstyle").remove();
+                                $("#remstyle").remove();
+                                $("#remstyle").remove();
+                                $("body").html(newdata);
+                                
+                            }
+                        })
+                        
+                    },
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9999999999"
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.on('payment.failed', function (response) {
+                    alert(response.error.description)
+                    
+                });
+                rzp1.open();
+                form.find("button[type='submit']").prop("disabled", false);
+                form.find("div[id='loading']").prop('hidden', true);
+
+
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                //loop
+                form.find("button[type='submit']").prop("disabled", false);
+                form.find("div[id='loading']").prop('hidden', true);
+
+
+                console.log(err)
+                console.log()
+                $.each(err.errors, function (key, value) {
+                    if (value.msg) {
+                        alert(value.msg)
+                        form.find("button[type='submit']").prop("disabled", false);
+                        form.find("div[id='loading']").prop('hidden', true);
+
+
+                    }
+
+                });
+                $.each(err, function (key, value) {
+                    if (err.message) {
+                        alert(err.message)
+                        form.find("button[type='submit']").prop("disabled", false);
+                        form.find("div[id='loading']").prop('hidden', true);
+
+                    }
+
+
+                });
+            }
+
+        })
+
+
+
+
+    });
+    function getFormData(data) {
+        var unindexed_array = data;
+        var indexed_array = {};
+
+        $.map(unindexed_array, function (n, i) {
+            indexed_array[n['name']] = n['value'];
+        });
+
+        return indexed_array;
+    }
+</script>

@@ -1,0 +1,174 @@
+<div class="container">
+    <div>
+        <h1 class="text-center">Welcome To Nodeista Control Panel</h1>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Activated</th>
+                <th scope="col">Paid</th>
+                <th scope="col">Activation Code</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each users}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.email}}</td>
+                <td id="{{this._id}}" class="act"> {{this.activated}}</td>
+                <td>{{this.paid}}</td>
+                <td>{{this.activationCode}}</td>
+                <td>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form action="/delete/{{this._id}}" method="get">
+                                <input type="hidden" value="{{this._id}}" id="idval">
+                                <button onclick="return confirm('Confirm Delete?')"
+                                    class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        </form>
+                        <div class="col-md-6">
+                            <form action="">
+                                <label class="switch">
+                                    <input class="toggle-two{{this._id}}" id="toggle-two{{this._id}}" data-toggle="toggle" data-width="100"
+                                        type="checkbox" name="active">
+                                    <span class="slider round"></span>
+                                </label>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </td>
+                https://discord.gg/Ay2uRF9FdT
+               
+                <script>
+                  var checkbox1 = document.getElementById('toggle-two{{this._id}}')
+                  if(document.getElementById('{{this._id}}').innerText == 'true'){
+                    checkbox1.checked = 1;
+                    }
+                    else{
+                    checkbox1.checked = 0;
+                    }
+                    
+                    function getCookie(cName) {
+                        const name = cName + "=";
+                        const cDecoded = decodeURIComponent(document.cookie); //to be careful
+                        const cArr = cDecoded.split('; ');
+                        let res;
+                        cArr.forEach(val => {
+                            if (val.indexOf(name) === 0) res = val.substring(name.length);
+                        })
+                        return res
+                    }
+                    $(function () {
+                        $('.toggle-two{{this._id}}').toggle({
+                            on: 'activate',
+                            off: 'deactivate'
+                        }).on('change', function () {
+                            var Checked_or_not = this.checked,  // check if checked or unchecked
+                                tN = Checked_or_not ? 'activate' : 'deactivate';  // if checked return 'rlock' if unchecked return 'runlock' for tN in url 
+                            $.ajax({
+                                url: tN + '/{{this._id}}',  // add tN in url
+                                headers: { "x-access-token": getCookie('x-access-token') },
+                                success: function (data, err) {
+                                    $.ajax({
+                                        url: '/data',
+                                        headers: { "x-access-token": getCookie('x-access-token') },
+                                        success: function (data, err) {
+                                            
+                                            //for each data
+                                            data.forEach(function (val) {
+
+                                                document.getElementById(val._id).innerHTML = val.activated;
+                                            })
+                                        }
+                                    })
+
+
+                                }
+                            });
+                        });
+                    });
+                </script>
+                 {{/each}}
+            </tr>
+
+
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
