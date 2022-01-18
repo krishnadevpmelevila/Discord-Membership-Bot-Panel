@@ -88,6 +88,7 @@ router.get('/activate/:_id', auth, async (req, res) => {
 });
 router.get('/deactivate/:_id', auth, async (req, res) => {
   // update activation
+  console.log(req.cookies)
   const id = req.params._id;
   const activation = await Activation.findById(id).catch(err => {
     console.log("err");
@@ -249,7 +250,7 @@ router.post("/admin", async (req, res) => {
         
 
 
-        res.cookie('x-access-token', cookietoken, {maxAge:60000*60*1.5, httpOnly: true});
+        res.cookie('x-access-token', cookietoken, {maxAge:60000*60*1.5});
         res.redirect('/dashboard');
       }
       // res.location('/dashboard')
@@ -376,7 +377,7 @@ router.post('/paid-reg', validate, async (req, res) => {
     let mobile = await User.findOne({ phone });
     if (mail || mobile) {
 
-      return res.status(400).json({ message: "Email Or Mobile already registered. Contact admin for activation code. " });
+      return res.status(400).json({ message: "Email Or Mobile already registered. Contact admin on +918089188971 for activation code. " });
 
     }
 
@@ -435,7 +436,7 @@ router.post('/free-reg', validate, async (req, res) => {
     }
     let mobile = await User.findOne({ phone });
     if (mobile) {
-      return res.status(400).render('index', { message: "Phone already registered. Contact admin for activation code. " });
+      return res.status(400).render('index', { message: "Phone already registered. Contact admin on +918089188971 for activation code. " });
     }
 
     var activationCode = getRandomString(15);

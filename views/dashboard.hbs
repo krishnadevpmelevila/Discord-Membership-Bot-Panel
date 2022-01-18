@@ -55,6 +55,7 @@
                
                
                 <script>
+                  
                   var checkbox1 = document.getElementById('toggle-two{{this._id}}')
                   if(document.getElementById('{{this._id}}').innerText == 'true'){
                     checkbox1.checked = 1;
@@ -73,6 +74,7 @@
                         })
                         return res
                     }
+                   
                     $(function () {
                         $('.toggle-two{{this._id}}').toggle({
                             on: 'activate',
