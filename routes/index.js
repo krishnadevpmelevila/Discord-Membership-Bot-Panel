@@ -632,7 +632,7 @@ router.post('/free-reg', validate, async (req, res) => {
                                                 </tbody>
                                             </table>
                                             <p style="font-family:'Ubuntu Mono', monospace;  font-size:12px;">
-                                                Nodeista &copy; 2021, All Rights Reserved</p>
+                                                Nodeista &copy; 2022, All Rights Reserved</p>
                                             <!-- END CONTENT -->
             
                                             <!-- START SPACING -->
